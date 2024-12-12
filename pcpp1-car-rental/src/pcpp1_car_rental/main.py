@@ -73,25 +73,20 @@ class RentalCarApp(tk.Tk):
 
     def create_car_selection_screen(self):
         filter_column = 1
-        ttk.Label(self.car_selection_tab, text="Car Selection").grid(
-            row=0, column=0, columnspan=1, padx=5, pady=5
-        )
-        ttk.Label(self.car_selection_tab, text="Car Filter").grid(
-            row=0, column=filter_column, padx=5, pady=5
-        )
+        ttk.Label(self.car_selection_tab, text="Car Selection").grid(row=0, column=0)
+        ttk.Label(self.car_selection_tab, text="Car Filter").grid(row=0, column=filter_column)
 
-        self.car_selection_filter_combobox = []
-        for index in range(1, (len(self.car_selection_header) * 2) + 1):
-            if (index) % 2 == 0:
-                self.car_selection_filter_combobox.append(
-                    ttk.Combobox(self.car_selection_tab).grid(
-                        row=index, column=filter_column, padx=5, pady=5
-                    )
-                )
-            else:
-                ttk.Label(
-                    self.car_selection_tab, text=self.car_selection_header[index // 2]
-                ).grid(row=index, column=filter_column, padx=5, pady=5)
+        ttk.Label(self.car_selection_tab, text="Brand").grid(row=1, column=filter_column)
+        ttk.Label(self.car_selection_tab, text="Model").grid(row=3, column=filter_column)
+        ttk.Label(self.car_selection_tab, text="Engine").grid(row=5, column=filter_column)
+        ttk.Label(self.car_selection_tab, text="Seat").grid(row=7, column=filter_column)
+        ttk.Label(self.car_selection_tab, text="Status").grid(row=9, column=filter_column)
+
+        self.reset_select_filter()
+
+        ttk.Button(
+            self.car_selection_tab, text="Clear Filter", command=self.reset_select_filter
+        ).grid(row=12, column=filter_column)
 
         self.car_selection_tree = ttk.Treeview(
             self.car_selection_tab,
@@ -101,13 +96,57 @@ class RentalCarApp(tk.Tk):
         for heading in self.car_selection_header:
             self.car_selection_tree.heading(heading, text=heading)
         self.car_selection_tree.grid(
-            row=1, column=0, rowspan=20, columnspan=1, padx=5, pady=5
+            row=1, column=0, rowspan=10, columnspan=1, padx=5, pady=5
         )
-        self.populate_car_selection_tree(data=self.car_selection_header)
 
         ttk.Button(
-            self.car_selection_tab, text="Select", command=self.load_car_data
-        ).grid(row=11, column=0, columnspan=1, padx=5, pady=5)
+            self.car_selection_tab, text="Select", command=self.select_car_for_rental
+        ).grid(row=12, column=0, columnspan=1, padx=5, pady=5)
+
+        self.populate_car_selection_tree(data=self.car_selection_header)
+
+    def reset_select_filter(self):
+        filter_column = 1
+        try:
+            self.car_selection_filter_brand.destroy()
+            self.car_selection_filter_model.destroy()
+            self.car_selection_filter_engine.destroy()
+            self.car_selection_filter_seat.destroy()
+            self.car_selection_filter_status.destroy()
+        except AttributeError:
+            print("Widget yet to exist.")
+
+        self.car_selection_filter_brand = ttk.Combobox(self.car_selection_tab)
+        self.car_selection_filter_model = ttk.Combobox(self.car_selection_tab)
+        self.car_selection_filter_engine = ttk.Combobox(self.car_selection_tab)
+        self.car_selection_filter_seat = ttk.Combobox(self.car_selection_tab)
+        self.car_selection_filter_status = ttk.Combobox(self.car_selection_tab)
+
+        self.car_selection_filter_brand.grid(row=2, column=filter_column)
+        self.car_selection_filter_model.grid(row=4, column=filter_column)
+        self.car_selection_filter_engine.grid(row=6, column=filter_column)
+        self.car_selection_filter_seat.grid(row=8, column=filter_column)
+        self.car_selection_filter_status.grid(row=10, column=filter_column)
+
+        self.populate_car_selection_filter(data=car_data.load_car_data())
+
+    def populate_car_selection_filter(self, data: list[str]):
+        info = {}
+        for items in data[0]:
+            if items != "ID":
+                info[items] = set("")
+        for items in data:
+            for key, value in items.items():
+                for temp in info.keys():
+                    if key == temp:
+                        info[key].add(value)
+                        break
+        print(info)
+        self.car_selection_filter_brand["values"] = list(info["brand"])
+        self.car_selection_filter_model["values"] = list(info["model"])
+        self.car_selection_filter_engine["values"] = list(info["engine_type"])
+        self.car_selection_filter_seat["values"] = list(info["seat_capacity"])
+        self.car_selection_filter_status["values"] = list(info["status"])
 
     def populate_car_selection_tree(self, data: list[str]):
         self.car_selection_tree.delete(*self.car_selection_tree.get_children())
@@ -121,8 +160,8 @@ class RentalCarApp(tk.Tk):
             row=0, column=0, columnspan=1, padx=5, pady=5
         )
 
-    def load_car_data(self):
-        pass
+    def select_car_for_rental(self):
+        print(self.car_selection_tree.item(self.car_selection_tree.focus()))
 
     def create_car_return_screen(self):
         pass
