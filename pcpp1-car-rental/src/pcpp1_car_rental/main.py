@@ -176,7 +176,7 @@ class RentalCarApp(tk.Tk):
         )
 
     def select_car_for_rental(self, data):
-        print(data)
+        # print(data)
         self.tab_control.destroy()
         self.rental_screen = ttk.Frame(self)
         ttk.Label(self.rental_screen, text="Rental Screen", font=("Arial", 25)).grid(row=0, column=0)
