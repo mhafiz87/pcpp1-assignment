@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+from .car import car_data
+
 
 class RentalCarApp(tk.Tk):
     def __init__(self):
@@ -9,6 +11,13 @@ class RentalCarApp(tk.Tk):
         self.resizable(True, True)
 
         self.create_login_screen()
+        self.car_selection_header = [
+            "brand",
+            "model",
+            "engine_type",
+            "seat_capacity",
+            "status",
+        ]
 
     def create_login_screen(self):
         self.current_user = tk.StringVar(self)
@@ -71,17 +80,8 @@ class RentalCarApp(tk.Tk):
             row=0, column=filter_column, padx=5, pady=5
         )
 
-        data = [
-            "brand",
-            "model",
-            "transmission",
-            "engine",
-            "seating_capacity",
-            "status",
-        ]
-
         self.car_selection_filter_combobox = []
-        for index in range(1, (len(data) * 2) + 1):
+        for index in range(1, (len(self.car_selection_header) * 2) + 1):
             if (index) % 2 == 0:
                 self.car_selection_filter_combobox.append(
                     ttk.Combobox(self.car_selection_tab).grid(
@@ -89,25 +89,32 @@ class RentalCarApp(tk.Tk):
                     )
                 )
             else:
-                ttk.Label(self.car_selection_tab, text=data[index // 2]).grid(
-                    row=index, column=filter_column, padx=5, pady=5
-                )
+                ttk.Label(
+                    self.car_selection_tab, text=self.car_selection_header[index // 2]
+                ).grid(row=index, column=filter_column, padx=5, pady=5)
+
         self.car_selection_tree = ttk.Treeview(
             self.car_selection_tab,
-            columns=list(data),
+            columns=list(self.car_selection_header),
             show="headings",
         )
-
-        for heading in data:
+        for heading in self.car_selection_header:
             self.car_selection_tree.heading(heading, text=heading)
-
         self.car_selection_tree.grid(
             row=1, column=0, rowspan=20, columnspan=1, padx=5, pady=5
         )
+        self.populate_car_selection_tree(data=self.car_selection_header)
 
         ttk.Button(
             self.car_selection_tab, text="Select", command=self.load_car_data
         ).grid(row=11, column=0, columnspan=1, padx=5, pady=5)
+
+    def populate_car_selection_tree(self, data: list[str]):
+        self.car_selection_tree.delete(*self.car_selection_tree.get_children())
+        for item in car_data.load_car_data():
+            self.car_selection_tree.insert(
+                "", "end", values=(tuple(item[info] for info in data))
+            )
 
     def create_car_monitoring_screen(self):
         ttk.Label(self.car_monitor_tab, text="Car Monitoring").grid(
