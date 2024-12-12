@@ -10,7 +10,7 @@ class CarData:
     def __init__(self):
         pass
 
-    def load_car_data(self) -> dict:
+    def load_car_data_csv(self) -> list[dict]:
         CAR_DATA_PATH = str(Path(__file__).parents[2].joinpath("data", "car.csv"))
         data = []
         header = []
@@ -23,15 +23,25 @@ class CarData:
                     data.append(dict(map(lambda x, y: (x, y), header, row)))
         return data
 
-    def load_car_data_json(self) -> dict:
-        data = {}
+    def load_car_data_json(self) -> list[dict]:
+        CAR_DATA_PATH = str(Path(__file__).parents[2].joinpath("data", "car.json"))
+        data = []
         with open(CAR_DATA_PATH, "r") as file:
             read = json.load(file)
             data = read["data"]
-        print(data)
+        return data
+
+    def load_car_data(self) -> list[dict]:
+        return self.load_car_data_json()
 
 
 if __name__ == "__main__":
     car_data = CarData()
-    print(car_data.load_car_data())
-    print(car_data.load_car_data_json())
+    for item in car_data.load_car_data_csv():
+        print(item)
+    print("\n")
+    for item in car_data.load_car_data_json():
+        print(item)
+    print("\n")
+    for item in car_data.load_car_data():
+        print(item)
