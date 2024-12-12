@@ -168,7 +168,7 @@ class RentalCarApp(tk.Tk):
                 "", "end", values=(tuple(item[info] for info in data))
             )
         for col in self.car_selection_tree["columns"]:
-            self.car_selection_tree.column(col, anchor="center")
+            self.car_selection_tree.column(col, anchor="center", width=100)
 
     def create_car_monitoring_screen(self):
         ttk.Label(self.car_monitor_tab, text="Car Monitoring").grid(

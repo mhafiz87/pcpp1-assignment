@@ -1,0 +1,92 @@
+{
+    "data": [
+        {
+            "ID": "ABC123",
+            "brand": "proton",
+            "model": "saga",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "XYZ789",
+            "brand": "proton",
+            "model": "s70",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "HJK456",
+            "brand": "proton",
+            "model": "x90",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "QWE321",
+            "brand": "proton",
+            "model": "x70",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "POI987",
+            "brand": "proton",
+            "model": "x50",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "MNB654",
+            "brand": "byd",
+            "model": "m6",
+            "engine_type": "ev",
+            "seat_capacity": 7,
+            "status": "available"
+        },
+        {
+            "ID": "LKJ987",
+            "brand": "byd",
+            "model": "seal",
+            "engine_type": "ev",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "WER456",
+            "brand": "byd",
+            "model": "dolphin",
+            "engine_type": "ev",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "UIO321",
+            "brand": "toyota",
+            "model": "camry",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "ZXC789",
+            "brand": "toyota",
+            "model": "vios",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        },
+        {
+            "ID": "VBN654",
+            "brand": "toyota",
+            "model": "yaris",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available"
+        }
+    ]
+}
