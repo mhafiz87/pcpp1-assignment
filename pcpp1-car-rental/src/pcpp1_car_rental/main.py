@@ -101,13 +101,13 @@ class RentalCarApp(tk.Tk):
             show="headings",
         )
         for heading in self.car_selection_header:
-            self.car_selection_tree.heading(heading, text=heading)
+            self.car_selection_tree.heading(heading, text=heading, anchor=tk.CENTER)
         self.car_selection_tree.grid(
             row=1, column=0, rowspan=10, columnspan=1, padx=5, pady=5
         )
 
         ttk.Button(
-            self.car_selection_tab, text="Select", command=self.select_car_for_rental
+            self.car_selection_tab, text="Select", command=lambda: self.select_car_for_rental(self.car_selection_tree.item(self.car_selection_tree.focus()))
         ).grid(row=12, column=0, columnspan=1, padx=5, pady=5)
 
         self.populate_car_selection_tree(data=self.car_selection_header)
@@ -123,11 +123,11 @@ class RentalCarApp(tk.Tk):
         except AttributeError:
             print("Widget yet to exist.")
 
-        self.car_selection_filter_brand = ttk.Combobox(self.car_selection_tab)
-        self.car_selection_filter_model = ttk.Combobox(self.car_selection_tab)
-        self.car_selection_filter_engine = ttk.Combobox(self.car_selection_tab)
-        self.car_selection_filter_seat = ttk.Combobox(self.car_selection_tab)
-        self.car_selection_filter_status = ttk.Combobox(self.car_selection_tab)
+        self.car_selection_filter_brand = ttk.Combobox(self.car_selection_tab, justify="center")
+        self.car_selection_filter_model = ttk.Combobox(self.car_selection_tab, justify="center")
+        self.car_selection_filter_engine = ttk.Combobox(self.car_selection_tab, justify="center")
+        self.car_selection_filter_seat = ttk.Combobox(self.car_selection_tab, justify="center")
+        self.car_selection_filter_status = ttk.Combobox(self.car_selection_tab, justify="center")
 
         self.car_selection_filter_brand.grid(row=2, column=filter_column)
         self.car_selection_filter_model.grid(row=4, column=filter_column)
@@ -148,12 +148,18 @@ class RentalCarApp(tk.Tk):
                     if key == temp:
                         info[key].add(value)
                         break
-        print(info)
+        # print(info)
         self.car_selection_filter_brand["values"] = list(info["brand"])
         self.car_selection_filter_model["values"] = list(info["model"])
         self.car_selection_filter_engine["values"] = list(info["engine_type"])
         self.car_selection_filter_seat["values"] = list(info["seat_capacity"])
         self.car_selection_filter_status["values"] = list(info["status"])
+
+        self.car_selection_filter_brand.configure(justify="center")
+        self.car_selection_filter_model.configure(justify="center")
+        self.car_selection_filter_engine.configure(justify="center")
+        self.car_selection_filter_seat.configure(justify="center")
+        self.car_selection_filter_status.configure(justify="center")
 
     def populate_car_selection_tree(self, data: list[str]):
         self.car_selection_tree.delete(*self.car_selection_tree.get_children())
@@ -161,14 +167,16 @@ class RentalCarApp(tk.Tk):
             self.car_selection_tree.insert(
                 "", "end", values=(tuple(item[info] for info in data))
             )
+        for col in self.car_selection_tree["columns"]:
+            self.car_selection_tree.column(col, anchor="center")
 
     def create_car_monitoring_screen(self):
         ttk.Label(self.car_monitor_tab, text="Car Monitoring").grid(
             row=0, column=0, columnspan=1, padx=5, pady=5
         )
 
-    def select_car_for_rental(self):
-        print(self.car_selection_tree.item(self.car_selection_tree.focus()))
+    def select_car_for_rental(self, data):
+        print(data)
         self.tab_control.destroy()
         self.rental_screen = ttk.Frame(self)
         ttk.Label(self.rental_screen, text="Rental Screen", font=("Arial", 25)).grid(row=0, column=0)
@@ -181,17 +189,32 @@ class RentalCarApp(tk.Tk):
         self.rental_seat = tk.StringVar(self)
         self.rental_status = tk.StringVar(self)
 
-        ttk.Label(self.rental_screen, text="Brand").grid(row=2, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Model").grid(row=3, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Engine").grid(row=4, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Seat").grid(row=5, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Status").grid(row=6, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Brand").grid(row=2, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Model").grid(row=3, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Engine").grid(row=4, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Seat").grid(row=5, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Status").grid(row=6, column=0, sticky="W", padx=10)
 
-        ttk.Entry(self.rental_screen, textvariable=self.rental_brand).grid(row=2, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_model).grid(row=3, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_engine).grid(row=4, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_seat).grid(row=5, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_status).grid(row=6, column=1, sticky="W")
+        rental_brand_entry = ttk.Entry(self.rental_screen, textvariable=self.rental_brand)
+        rental_brand_model = ttk.Entry(self.rental_screen, textvariable=self.rental_model)
+        rental_brand_engine = ttk.Entry(self.rental_screen, textvariable=self.rental_engine)
+        rental_brand_seat = ttk.Entry(self.rental_screen, textvariable=self.rental_seat)
+        rental_brand_status = ttk.Entry(self.rental_screen, textvariable=self.rental_status)
+
+        try:
+            rental_brand_entry.insert(0, data["values"][0])
+            rental_brand_model.insert(0, data["values"][1])
+            rental_brand_engine.insert(0, data["values"][2])
+            rental_brand_seat.insert(0, data["values"][3])
+            rental_brand_status.insert(0, data["values"][4])
+        except IndexError:
+            print("Empty Data")
+
+        rental_brand_entry.grid(row=2, column=1, sticky="W", padx=10)
+        rental_brand_model.grid(row=3, column=1, sticky="W", padx=10)
+        rental_brand_engine.grid(row=4, column=1, sticky="W", padx=10)
+        rental_brand_seat.grid(row=5, column=1, sticky="W", padx=10)
+        rental_brand_status.grid(row=6, column=1, sticky="W", padx=10)
 
         ttk.Separator(self.rental_screen, orient="horizontal").grid(row=7, column=0, columnspan=10, sticky="EW")
 
@@ -200,17 +223,18 @@ class RentalCarApp(tk.Tk):
         self.rental_address = tk.StringVar(self)
         self.rental_email = tk.StringVar(self)
 
-        ttk.Label(self.rental_screen, text="Full Name").grid(row=8, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Contact").grid(row=9, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Address").grid(row=10, column=0, sticky="W")
-        ttk.Label(self.rental_screen, text="Email").grid(row=11, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Full Name").grid(row=8, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Contact").grid(row=9, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Address").grid(row=10, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Email").grid(row=11, column=0, sticky="W", padx=10)
 
-        ttk.Entry(self.rental_screen, textvariable=self.rental_name).grid(row=8, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_contact).grid(row=9, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_address).grid(row=10, column=1, sticky="W")
-        ttk.Entry(self.rental_screen, textvariable=self.rental_email).grid(row=11, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_name).grid(row=8, column=1, sticky="W", padx=10)
+        ttk.Entry(self.rental_screen, textvariable=self.rental_contact).grid(row=9, column=1, sticky="W", padx=10)
+        ttk.Entry(self.rental_screen, textvariable=self.rental_address).grid(row=10, column=1, sticky="W", padx=10)
+        ttk.Entry(self.rental_screen, textvariable=self.rental_email).grid(row=11, column=1, sticky="W", padx=10)
 
-        ttk.Button(self.rental_screen, text="Rent", command=self.create_page_selection_screen).grid(row=12, column=0, columnspan=2)
+        ttk.Button(self.rental_screen, text="Rent", command=self.create_page_selection_screen).grid(row=12, column=0, padx=10)
+        ttk.Button(self.rental_screen, text="Cancel", command=self.create_page_selection_screen).grid(row=12, column=1, padx=10)
 
         self.rental_screen.pack()
 
