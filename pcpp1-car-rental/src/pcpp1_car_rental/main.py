@@ -52,7 +52,14 @@ class RentalCarApp(tk.Tk):
         self.login_frame.pack(pady=20)
 
     def create_page_selection_screen(self):
-        self.login_frame.destroy()
+        try:
+            self.login_frame.destroy()
+        except AttributeError:
+            print("Widget is not available.")
+        try:
+            self.rental_screen.destroy()
+        except AttributeError:
+            print("Widget is not available.")
         self.tab_control = ttk.Notebook(self)
 
         self.car_selection_tab = ttk.Frame(self.tab_control)
@@ -162,6 +169,50 @@ class RentalCarApp(tk.Tk):
 
     def select_car_for_rental(self):
         print(self.car_selection_tree.item(self.car_selection_tree.focus()))
+        self.tab_control.destroy()
+        self.rental_screen = ttk.Frame(self)
+        ttk.Label(self.rental_screen, text="Rental Screen", font=("Arial", 25)).grid(row=0, column=0)
+
+        ttk.Separator(self.rental_screen, orient="horizontal").grid(row=1, column=0, columnspan=10, sticky="EW")
+
+        self.rental_brand = tk.StringVar(self)
+        self.rental_model = tk.StringVar(self)
+        self.rental_engine = tk.StringVar(self)
+        self.rental_seat = tk.StringVar(self)
+        self.rental_status = tk.StringVar(self)
+
+        ttk.Label(self.rental_screen, text="Brand").grid(row=2, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Model").grid(row=3, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Engine").grid(row=4, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Seat").grid(row=5, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Status").grid(row=6, column=0, sticky="W")
+
+        ttk.Entry(self.rental_screen, textvariable=self.rental_brand).grid(row=2, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_model).grid(row=3, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_engine).grid(row=4, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_seat).grid(row=5, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_status).grid(row=6, column=1, sticky="W")
+
+        ttk.Separator(self.rental_screen, orient="horizontal").grid(row=7, column=0, columnspan=10, sticky="EW")
+
+        self.rental_name = tk.StringVar(self)
+        self.rental_contact = tk.StringVar(self)
+        self.rental_address = tk.StringVar(self)
+        self.rental_email = tk.StringVar(self)
+
+        ttk.Label(self.rental_screen, text="Full Name").grid(row=8, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Contact").grid(row=9, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Address").grid(row=10, column=0, sticky="W")
+        ttk.Label(self.rental_screen, text="Email").grid(row=11, column=0, sticky="W")
+
+        ttk.Entry(self.rental_screen, textvariable=self.rental_name).grid(row=8, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_contact).grid(row=9, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_address).grid(row=10, column=1, sticky="W")
+        ttk.Entry(self.rental_screen, textvariable=self.rental_email).grid(row=11, column=1, sticky="W")
+
+        ttk.Button(self.rental_screen, text="Rent", command=self.create_page_selection_screen).grid(row=12, column=0, columnspan=2)
+
+        self.rental_screen.pack()
 
     def create_car_return_screen(self):
         pass
