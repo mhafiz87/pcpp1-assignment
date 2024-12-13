@@ -3,7 +3,7 @@ from tkinter import filedialog, messagebox, ttk
 
 from tkcalendar import Calendar
 
-from . import car_data
+from . import car_data, customer_data
 
 
 class RentalCarApp(tk.Tk):
@@ -20,6 +20,18 @@ class RentalCarApp(tk.Tk):
             "seat_capacity",
             "status",
         ]
+        self.car_monitor_header = list(car_data.load_car_data()[0].keys())
+        self.customer_header = list(customer_data.load_customer_data()[0].keys())
+
+    def destroy_screens(self):
+        try:
+            self.login_frame.destroy()
+        except AttributeError:
+            print("Widget is not available.")
+        try:
+            self.rental_screen.destroy()
+        except AttributeError:
+            print("Widget is not available.")
 
     def create_login_screen(self):
         self.current_user = tk.StringVar(self)
@@ -54,14 +66,7 @@ class RentalCarApp(tk.Tk):
         self.login_frame.pack(pady=20)
 
     def create_page_selection_screen(self):
-        try:
-            self.login_frame.destroy()
-        except AttributeError:
-            print("Widget is not available.")
-        try:
-            self.rental_screen.destroy()
-        except AttributeError:
-            print("Widget is not available.")
+        self.destroy_screens()
         self.tab_control = ttk.Notebook(self)
 
         self.car_selection_tab = ttk.Frame(self.tab_control)
@@ -83,18 +88,29 @@ class RentalCarApp(tk.Tk):
     def create_car_selection_screen(self):
         filter_column = 1
         ttk.Label(self.car_selection_tab, text="Car Selection").grid(row=0, column=0)
-        ttk.Label(self.car_selection_tab, text="Car Filter").grid(row=0, column=filter_column)
+        ttk.Label(self.car_selection_tab, text="Car Filter").grid(
+            row=0, column=filter_column
+        )
 
-        ttk.Label(self.car_selection_tab, text="Brand").grid(row=1, column=filter_column)
-        ttk.Label(self.car_selection_tab, text="Model").grid(row=3, column=filter_column)
-        ttk.Label(self.car_selection_tab, text="Engine").grid(row=5, column=filter_column)
+        ttk.Label(self.car_selection_tab, text="Brand").grid(
+            row=1, column=filter_column
+        )
+        ttk.Label(self.car_selection_tab, text="Model").grid(
+            row=3, column=filter_column
+        )
+        ttk.Label(self.car_selection_tab, text="Engine").grid(
+            row=5, column=filter_column
+        )
         ttk.Label(self.car_selection_tab, text="Seat").grid(row=7, column=filter_column)
-        ttk.Label(self.car_selection_tab, text="Status").grid(row=9, column=filter_column)
-
+        ttk.Label(self.car_selection_tab, text="Status").grid(
+            row=9, column=filter_column
+        )
         self.reset_select_filter()
 
         ttk.Button(
-            self.car_selection_tab, text="Clear Filter", command=self.reset_select_filter
+            self.car_selection_tab,
+            text="Clear Filter",
+            command=self.reset_select_filter,
         ).grid(row=12, column=filter_column)
 
         self.car_selection_tree = ttk.Treeview(
@@ -107,12 +123,16 @@ class RentalCarApp(tk.Tk):
         self.car_selection_tree.grid(
             row=1, column=0, rowspan=10, columnspan=1, padx=5, pady=5
         )
+        self.populate_car_selection_tree(data=self.car_selection_header)
 
         ttk.Button(
-            self.car_selection_tab, text="Select", command=lambda: self.select_car_for_rental(self.car_selection_tree.item(self.car_selection_tree.focus()))
+            self.car_selection_tab,
+            text="Select",
+            command=lambda: self.select_car_for_rental(
+                self.car_selection_tree.item(self.car_selection_tree.focus())
+            ),
         ).grid(row=12, column=0, columnspan=1, padx=5, pady=5)
 
-        self.populate_car_selection_tree(data=self.car_selection_header)
 
     def reset_select_filter(self):
         filter_column = 1
@@ -125,11 +145,21 @@ class RentalCarApp(tk.Tk):
         except AttributeError:
             print("Widget yet to exist.")
 
-        self.car_selection_filter_brand = ttk.Combobox(self.car_selection_tab, justify="center")
-        self.car_selection_filter_model = ttk.Combobox(self.car_selection_tab, justify="center")
-        self.car_selection_filter_engine = ttk.Combobox(self.car_selection_tab, justify="center")
-        self.car_selection_filter_seat = ttk.Combobox(self.car_selection_tab, justify="center")
-        self.car_selection_filter_status = ttk.Combobox(self.car_selection_tab, justify="center")
+        self.car_selection_filter_brand = ttk.Combobox(
+            self.car_selection_tab, justify="center"
+        )
+        self.car_selection_filter_model = ttk.Combobox(
+            self.car_selection_tab, justify="center"
+        )
+        self.car_selection_filter_engine = ttk.Combobox(
+            self.car_selection_tab, justify="center"
+        )
+        self.car_selection_filter_seat = ttk.Combobox(
+            self.car_selection_tab, justify="center"
+        )
+        self.car_selection_filter_status = ttk.Combobox(
+            self.car_selection_tab, justify="center"
+        )
 
         self.car_selection_filter_brand.grid(row=2, column=filter_column)
         self.car_selection_filter_model.grid(row=4, column=filter_column)
@@ -174,8 +204,28 @@ class RentalCarApp(tk.Tk):
 
     def create_car_monitoring_screen(self):
         ttk.Label(self.car_monitor_tab, text="Car Monitoring").grid(
-            row=0, column=0, columnspan=1, padx=5, pady=5
+            row=0, column=0, padx=10, pady=10
         )
+        self.car_monitoring_tree = ttk.Treeview(
+            self.car_monitor_tab,
+            columns=list(self.car_monitor_header),
+            show="headings",
+        )
+        for heading in self.car_monitor_header:
+            self.car_monitoring_tree.heading(heading, text=heading, anchor=tk.CENTER)
+        self.car_monitoring_tree.grid(
+            row=1, column=0, rowspan=10, columnspan=1, padx=5, pady=5
+        )
+        self.populate_car_monitoring_tree(data=self.car_monitor_header)
+
+    def populate_car_monitoring_tree(self, data):
+        self.car_monitoring_tree.delete(*self.car_monitoring_tree.get_children())
+        for item in car_data.load_car_data():
+            self.car_monitoring_tree.insert(
+                "", "end", values=(tuple(item[info] for info in data))
+            )
+        for col in self.car_monitoring_tree["columns"]:
+            self.car_monitoring_tree.column(col, anchor="center", width=100)
 
     def select_car_for_rental(self, data):
         # print(data)
@@ -185,9 +235,13 @@ class RentalCarApp(tk.Tk):
         self.temp_rental_info = data
         self.tab_control.destroy()
         self.rental_screen = ttk.Frame(self)
-        ttk.Label(self.rental_screen, text="Rental Screen", font=("Arial", 25)).grid(row=0, column=0)
+        ttk.Label(self.rental_screen, text="Rental Screen", font=("Arial", 25)).grid(
+            row=0, column=0
+        )
 
-        ttk.Separator(self.rental_screen, orient="horizontal").grid(row=1, column=0, columnspan=10, sticky="EW")
+        ttk.Separator(self.rental_screen, orient="horizontal").grid(
+            row=1, column=0, columnspan=10, sticky="EW"
+        )
 
         self.rental_brand = tk.StringVar(self)
         self.rental_model = tk.StringVar(self)
@@ -197,21 +251,47 @@ class RentalCarApp(tk.Tk):
         self.rental_start_date = tk.StringVar(self)
         self.rental_end_date = tk.StringVar(self)
 
-        ttk.Label(self.rental_screen, text="Brand").grid(row=2, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Model").grid(row=3, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Engine").grid(row=4, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Seat").grid(row=5, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Status").grid(row=6, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Start Date").grid(row=7, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="End Date").grid(row=8, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Brand").grid(
+            row=2, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Model").grid(
+            row=3, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Engine").grid(
+            row=4, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Seat").grid(
+            row=5, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Status").grid(
+            row=6, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Start Date").grid(
+            row=7, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="End Date").grid(
+            row=8, column=0, sticky="W", padx=10
+        )
 
-        rental_brand_entry = ttk.Entry(self.rental_screen, textvariable=self.rental_brand)
-        rental_brand_model = ttk.Entry(self.rental_screen, textvariable=self.rental_model)
-        rental_brand_engine = ttk.Entry(self.rental_screen, textvariable=self.rental_engine)
+        rental_brand_entry = ttk.Entry(
+            self.rental_screen, textvariable=self.rental_brand
+        )
+        rental_brand_model = ttk.Entry(
+            self.rental_screen, textvariable=self.rental_model
+        )
+        rental_brand_engine = ttk.Entry(
+            self.rental_screen, textvariable=self.rental_engine
+        )
         rental_brand_seat = ttk.Entry(self.rental_screen, textvariable=self.rental_seat)
-        rental_brand_status = ttk.Entry(self.rental_screen, textvariable=self.rental_status)
-        rental_start_date_entry = ttk.Entry(self.rental_screen, textvariable=self.rental_start_date)
-        rental_start_end_entry = ttk.Entry(self.rental_screen, textvariable=self.rental_end_date)
+        rental_brand_status = ttk.Entry(
+            self.rental_screen, textvariable=self.rental_status
+        )
+        rental_start_date_entry = ttk.Entry(
+            self.rental_screen, textvariable=self.rental_start_date
+        )
+        rental_start_end_entry = ttk.Entry(
+            self.rental_screen, textvariable=self.rental_end_date
+        )
 
         try:
             rental_brand_entry.insert(0, self.temp_rental_info["values"][0])
@@ -236,43 +316,75 @@ class RentalCarApp(tk.Tk):
         rental_start_date_entry.grid(row=7, column=1, sticky="W", padx=10)
         rental_start_end_entry.grid(row=8, column=1, sticky="W", padx=10)
 
-        ttk.Separator(self.rental_screen, orient="horizontal").grid(row=9, column=0, columnspan=10, sticky="EW")
+        ttk.Separator(self.rental_screen, orient="horizontal").grid(
+            row=9, column=0, columnspan=10, sticky="EW"
+        )
 
         self.rental_name = tk.StringVar(self)
         self.rental_contact = tk.StringVar(self)
         self.rental_address = tk.StringVar(self)
         self.rental_email = tk.StringVar(self)
 
-        ttk.Label(self.rental_screen, text="Full Name").grid(row=10, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Contact").grid(row=11, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Address").grid(row=12, column=0, sticky="W", padx=10)
-        ttk.Label(self.rental_screen, text="Email").grid(row=13, column=0, sticky="W", padx=10)
+        ttk.Label(self.rental_screen, text="Full Name").grid(
+            row=10, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Contact").grid(
+            row=11, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Address").grid(
+            row=12, column=0, sticky="W", padx=10
+        )
+        ttk.Label(self.rental_screen, text="Email").grid(
+            row=13, column=0, sticky="W", padx=10
+        )
 
-        ttk.Entry(self.rental_screen, textvariable=self.rental_name).grid(row=10, column=1, sticky="W", padx=10)
-        ttk.Entry(self.rental_screen, textvariable=self.rental_contact).grid(row=11, column=1, sticky="W", padx=10)
-        ttk.Entry(self.rental_screen, textvariable=self.rental_address).grid(row=12, column=1, sticky="W", padx=10)
-        ttk.Entry(self.rental_screen, textvariable=self.rental_email).grid(row=13, column=1, sticky="W", padx=10)
+        ttk.Entry(self.rental_screen, textvariable=self.rental_name).grid(
+            row=10, column=1, sticky="W", padx=10
+        )
+        ttk.Entry(self.rental_screen, textvariable=self.rental_contact).grid(
+            row=11, column=1, sticky="W", padx=10
+        )
+        ttk.Entry(self.rental_screen, textvariable=self.rental_address).grid(
+            row=12, column=1, sticky="W", padx=10
+        )
+        ttk.Entry(self.rental_screen, textvariable=self.rental_email).grid(
+            row=13, column=1, sticky="W", padx=10
+        )
 
-        ttk.Button(self.rental_screen, text="Rent", command=self.create_page_selection_screen).grid(row=14, column=0, padx=10)
-        ttk.Button(self.rental_screen, text="Cancel", command=self.create_page_selection_screen).grid(row=14, column=1, padx=10)
+        ttk.Button(
+            self.rental_screen, text="Rent", command=self.create_page_selection_screen
+        ).grid(row=14, column=0, padx=10)
+        ttk.Button(
+            self.rental_screen, text="Cancel", command=self.create_page_selection_screen
+        ).grid(row=14, column=1, padx=10)
 
         self.rental_screen.pack()
 
-    def create_car_return_screen(self):
-        pass
-
-    def create_customer_registration_screen(self):
-        pass
-
     def create_customer_profile_screen(self):
         ttk.Label(self.customer_profile_tab, text="Customer Profile").grid(
-            row=0, column=0, padx=5, pady=5
+            row=0, column=0, padx=10, pady=10
         )
-        # self.secondary_frame_label.destroy()
-        # self.secondary_frame_label = ttk.Label(
-        #     self.secondary_frame, text="Customer Profile Screen"
-        # )
-        # self.secondary_frame_label.pack(pady=10)
+        self.customer_tree = ttk.Treeview(
+            self.customer_profile_tab,
+            columns=list(self.customer_header),
+            show="headings",
+        )
+        for heading in self.customer_header:
+            self.customer_tree.heading(heading, text=heading, anchor=tk.CENTER)
+        self.customer_tree.grid(
+            row=1, column=0, rowspan=10, columnspan=1, padx=5, pady=5
+        )
+        self.populate_customer_tree(data=self.customer_header)
+
+    def populate_customer_tree(self, data):
+        self.customer_tree.delete(*self.customer_tree.get_children())
+        for item in customer_data.load_customer_data():
+            self.customer_tree.insert(
+                "", "end", values=(tuple(item[info] for info in data))
+            )
+        for col in self.customer_tree["columns"]:
+            self.customer_tree.column(col, anchor="center")
+        return
 
     def create_rental_history_screen(self):
         pass

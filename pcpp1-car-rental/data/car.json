@@ -6,7 +6,9 @@
             "model": "saga",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "XYZ789",
@@ -14,7 +16,9 @@
             "model": "s70",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "HJK456",
@@ -22,7 +26,9 @@
             "model": "x90",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "QWE321",
@@ -30,7 +36,9 @@
             "model": "x70",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "POI987",
@@ -38,7 +46,9 @@
             "model": "x50",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "MNB654",
@@ -46,7 +56,9 @@
             "model": "m6",
             "engine_type": "ev",
             "seat_capacity": 7,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "LKJ987",
@@ -54,7 +66,9 @@
             "model": "seal",
             "engine_type": "ev",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "WER456",
@@ -62,7 +76,9 @@
             "model": "dolphin",
             "engine_type": "ev",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "UIO321",
@@ -70,7 +86,9 @@
             "model": "camry",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "ZXC789",
@@ -78,7 +96,9 @@
             "model": "vios",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         },
         {
             "ID": "VBN654",
@@ -86,7 +106,9 @@
             "model": "yaris",
             "engine_type": "gasoline",
             "seat_capacity": 5,
-            "status": "available"
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
         }
     ]
 }
