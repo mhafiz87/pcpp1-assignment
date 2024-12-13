@@ -13,13 +13,15 @@ class RentalCarApp(tk.Tk):
         self.resizable(True, True)
 
         self.create_login_screen()
-        self.car_selection_header = [
-            "brand",
-            "model",
-            "engine_type",
-            "seat_capacity",
-            "status",
-        ]
+        self.car_selection_hide_column = ["ID", "start_date", "end_date"]
+        self.car_selection_header = list(car_data.load_car_data()[0].keys())
+        # self.car_selection_header = [
+        #     "brand",
+        #     "model",
+        #     "engine_type",
+        #     "seat_capacity",
+        #     "status",
+        # ]
         self.car_monitor_header = list(car_data.load_car_data()[0].keys())
         self.customer_header = list(customer_data.load_customer_data()[0].keys())
 
@@ -118,8 +120,14 @@ class RentalCarApp(tk.Tk):
             columns=list(self.car_selection_header),
             show="headings",
         )
-        for heading in self.car_selection_header:
-            self.car_selection_tree.heading(heading, text=heading, anchor=tk.CENTER)
+        # https://stackoverflow.com/questions/33290969/hiding-treeview-columns-in-tkinter
+        display_column = []
+        for col in self.car_selection_tree["columns"]:
+            if not col in self.car_selection_hide_column:
+                display_column.append(col)
+        self.car_selection_tree["displaycolumns"] = display_column
+        # for heading in self.car_selection_header:
+        #     self.car_selection_tree.heading(heading, text=heading, anchor=tk.CENTER)
         self.car_selection_tree.grid(
             row=1, column=0, rowspan=10, columnspan=1, padx=5, pady=5
         )
@@ -218,7 +226,7 @@ class RentalCarApp(tk.Tk):
         )
         self.populate_car_monitoring_tree(data=self.car_monitor_header)
 
-    def populate_car_monitoring_tree(self, data):
+    def populate_car_monitoring_tree(self, data, filter=None):
         self.car_monitoring_tree.delete(*self.car_monitoring_tree.get_children())
         for item in car_data.load_car_data():
             self.car_monitoring_tree.insert(
@@ -228,7 +236,7 @@ class RentalCarApp(tk.Tk):
             self.car_monitoring_tree.column(col, anchor="center", width=100)
 
     def select_car_for_rental(self, data):
-        # print(data)
+        print(data)
         if data["values"] == "":
             messagebox.showwarning("Warning!!!", "Please select a car first.")
             return
@@ -294,11 +302,11 @@ class RentalCarApp(tk.Tk):
         )
 
         try:
-            rental_brand_entry.insert(0, self.temp_rental_info["values"][0])
-            rental_brand_model.insert(0, self.temp_rental_info["values"][1])
-            rental_brand_engine.insert(0, self.temp_rental_info["values"][2])
-            rental_brand_seat.insert(0, self.temp_rental_info["values"][3])
-            rental_brand_status.insert(0, self.temp_rental_info["values"][4])
+            rental_brand_entry.insert(0, self.temp_rental_info["values"][1])
+            rental_brand_model.insert(0, self.temp_rental_info["values"][2])
+            rental_brand_engine.insert(0, self.temp_rental_info["values"][3])
+            rental_brand_seat.insert(0, self.temp_rental_info["values"][4])
+            rental_brand_status.insert(0, self.temp_rental_info["values"][5])
 
             rental_brand_entry.configure(state="readonly")
             rental_brand_model.configure(state="readonly")
@@ -351,14 +359,27 @@ class RentalCarApp(tk.Tk):
             row=13, column=1, sticky="W", padx=10
         )
 
+        rental_info = {
+            "name": self.rental_name.get(),
+            "contact": self.rental_contact.get(),
+            "address": self.rental_address.get(),
+            "email": self.rental_email.get(),
+            "car_id": self.temp_rental_info["values"][0],
+        }
+        self.rental_name.get()
+
         ttk.Button(
-            self.rental_screen, text="Rent", command=self.create_page_selection_screen
+            self.rental_screen, text="Rent", command=lambda: self.rental_confirmation_screen(rental_info)
         ).grid(row=14, column=0, padx=10)
         ttk.Button(
             self.rental_screen, text="Cancel", command=self.create_page_selection_screen
         ).grid(row=14, column=1, padx=10)
 
         self.rental_screen.pack()
+
+    def rental_confirmation_screen(self, data):
+        print(data)
+        self.create_page_selection_screen()
 
     def create_customer_profile_screen(self):
         ttk.Label(self.customer_profile_tab, text="Customer Profile").grid(

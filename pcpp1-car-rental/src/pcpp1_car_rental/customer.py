@@ -1,10 +1,21 @@
-
 import csv
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
 # CUSTOMER_DATA_PATH = str(Path(__file__).parents[2].joinpath("data", "customer.csv"))
 CUSTOMER_DATA_PATH = str(Path(__file__).parents[2].joinpath("data", "customer.json"))
+
+
+@dataclass
+class Customer:
+    full_name: str
+    contact: str
+    address: str
+    email: str
+    car: str
+    start_date: str
+    end_date: str
 
 
 class CustomerData:
@@ -12,7 +23,9 @@ class CustomerData:
         pass
 
     def load_customer_data_csv(self) -> list[dict]:
-        CUSTOMER_DATA_PATH = str(Path(__file__).parents[2].joinpath("data", "customer.csv"))
+        CUSTOMER_DATA_PATH = str(
+            Path(__file__).parents[2].joinpath("data", "customer.csv")
+        )
         data = []
         header = []
         with open(CUSTOMER_DATA_PATH, "r") as file:
@@ -25,7 +38,9 @@ class CustomerData:
         return data
 
     def load_customer_data_json(self) -> list[dict]:
-        CUSTOMER_DATA_PATH = str(Path(__file__).parents[2].joinpath("data", "customer.json"))
+        CUSTOMER_DATA_PATH = str(
+            Path(__file__).parents[2].joinpath("data", "customer.json")
+        )
         data = []
         with open(CUSTOMER_DATA_PATH, "r") as file:
             read = json.load(file)
@@ -34,6 +49,9 @@ class CustomerData:
 
     def load_customer_data(self) -> list[dict]:
         return self.load_customer_data_json()
+
+    def update_customer_data(self, data) -> None:
+        pass
 
 
 if __name__ == "__main__":
