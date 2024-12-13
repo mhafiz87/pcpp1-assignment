@@ -43,7 +43,7 @@ class CarData:
                 info["status"] = "rented"
                 break
         with open(CAR_DATA_PATH, "w") as file:
-            json.dump({"data": current_data}, file)
+            json.dump({"data": current_data}, file, indent=4)
 
 if __name__ == "__main__":
     car_data = CarData()

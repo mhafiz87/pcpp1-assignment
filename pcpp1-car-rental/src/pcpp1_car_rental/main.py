@@ -380,6 +380,9 @@ class RentalCarApp(tk.Tk):
             "contact": self.rental_contact.get(),
             "address": self.rental_address.get(),
             "email": self.rental_email.get(),
+            "car": self.temp_rental_info["values"][0],
+            "start_date": self.rental_start_date.get(),
+            "end_date": self.rental_end_date.get(),
         }
         car_rental_data = {
             "ID": self.temp_rental_info["values"][0],
