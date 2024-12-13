@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "name": "hafiz",
+            "password": "hafiz001"
+        },
+        {
+            "name": "alia",
+            "password": "alia001"
+        },
+        {
+            "name": "irsyad",
+            "password": "irsyad001"
+        },
+        {
+            "name": "edlan",
+            "password": "edlan001"
+        }
+    ]
+}

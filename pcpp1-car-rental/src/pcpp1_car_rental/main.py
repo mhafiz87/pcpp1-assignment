@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+from colored import Fore, Style
 from tkcalendar import Calendar
 
-from . import car_data, customer_data
+from . import car_data, customer_data, logger, staff_data
 
 
 class RentalCarApp(tk.Tk):
@@ -15,13 +16,6 @@ class RentalCarApp(tk.Tk):
         self.create_login_screen()
         self.car_selection_hide_column = ["ID", "start_date", "end_date"]
         self.car_selection_header = list(car_data.load_car_data()[0].keys())
-        # self.car_selection_header = [
-        #     "brand",
-        #     "model",
-        #     "engine_type",
-        #     "seat_capacity",
-        #     "status",
-        # ]
         self.car_monitor_header = list(car_data.load_car_data()[0].keys())
         self.customer_header = list(customer_data.load_customer_data()[0].keys())
 
@@ -52,7 +46,7 @@ class RentalCarApp(tk.Tk):
 
         # login_button = ttk.Button(self.login_frame, text="Login", command=self.perform_login)
         login_button = ttk.Button(
-            self.login_frame, text="Login", command=self.create_page_selection_screen
+            self.login_frame, text="Login", command=self.validate_login
         )
 
         login_label.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
@@ -66,6 +60,14 @@ class RentalCarApp(tk.Tk):
         login_button.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
 
         self.login_frame.pack(pady=20)
+
+    def validate_login(self):
+        status = staff_data.is_staff(self.current_user.get(), self.current_password.get())
+        if status:
+            self.create_page_selection_screen()
+        else:
+            logger.warning(f"{Style.bold}{Fore.red}Invalid username or password.{Style.reset}")
+            messagebox.showwarning("Warning!!!", "Invalid username or password.")
 
     def create_page_selection_screen(self):
         self.destroy_screens()
