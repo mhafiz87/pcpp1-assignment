@@ -51,7 +51,17 @@ class CustomerData:
         return self.load_customer_data_json()
 
     def update_customer_data(self, data) -> None:
-        pass
+        current_data = self.load_customer_data()
+        for info in current_data:
+            if info["contact"] == data["contact"]:
+                info["start_date"] = data["start_date"]
+                info["end_date"] = data["end_date"]
+                info["car"] = data["car"]
+                break
+        else:
+            current_data.append(data)
+        with open(CUSTOMER_DATA_PATH, "w") as file:
+            json.dump({"data": current_data}, file, indent=4)
 
 
 if __name__ == "__main__":

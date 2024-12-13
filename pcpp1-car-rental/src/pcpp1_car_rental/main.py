@@ -376,7 +376,7 @@ class RentalCarApp(tk.Tk):
 
     def rental_confirmation_screen(self):
         customer_rental_data = {
-            "name": self.rental_name.get(),
+            "full_name": self.rental_name.get(),
             "contact": self.rental_contact.get(),
             "address": self.rental_address.get(),
             "email": self.rental_email.get(),
