@@ -80,6 +80,10 @@ class RentalCarApp(tk.Tk):
         self.tab_control.add(self.customer_profile_tab, text="Customer Profile")
         self.tab_control.pack(expand=1, fill="both")
 
+        # for i, tab in enumerate(self.tab_control.winfo_children()):
+        #     tab_text = self.tab_control.tab(i, 'text')
+        #     print(f"Tab {i} Text: {tab_text}")
+
         self.create_car_selection_screen()
         self.create_car_monitoring_screen()
         self.create_customer_profile_screen()
@@ -204,13 +208,15 @@ class RentalCarApp(tk.Tk):
     def populate_car_selection_tree(self, data: list[str]):
         self.car_selection_tree.delete(*self.car_selection_tree.get_children())
         for item in car_data.load_car_data():
-            self.car_selection_tree.insert(
-                "", "end", values=(tuple(item[info] for info in data))
-            )
+            if item["status"] == "available":
+                self.car_selection_tree.insert(
+                    "", "end", values=(tuple(item[info] for info in data))
+                )
         for col in self.car_selection_tree["columns"]:
             self.car_selection_tree.column(col, anchor="center", width=100)
 
     def create_car_monitoring_screen(self):
+        self.tab_control.tab
         ttk.Label(self.car_monitor_tab, text="Car Monitoring").grid(
             row=0, column=0, padx=10, pady=10
         )
@@ -359,17 +365,8 @@ class RentalCarApp(tk.Tk):
             row=13, column=1, sticky="W", padx=10
         )
 
-        rental_info = {
-            "name": self.rental_name.get(),
-            "contact": self.rental_contact.get(),
-            "address": self.rental_address.get(),
-            "email": self.rental_email.get(),
-            "car_id": self.temp_rental_info["values"][0],
-        }
-        self.rental_name.get()
-
         ttk.Button(
-            self.rental_screen, text="Rent", command=lambda: self.rental_confirmation_screen(rental_info)
+            self.rental_screen, text="Rent", command=self.rental_confirmation_screen
         ).grid(row=14, column=0, padx=10)
         ttk.Button(
             self.rental_screen, text="Cancel", command=self.create_page_selection_screen
@@ -377,9 +374,22 @@ class RentalCarApp(tk.Tk):
 
         self.rental_screen.pack()
 
-    def rental_confirmation_screen(self, data):
-        print(data)
+    def rental_confirmation_screen(self):
+        customer_rental_data = {
+            "name": self.rental_name.get(),
+            "contact": self.rental_contact.get(),
+            "address": self.rental_address.get(),
+            "email": self.rental_email.get(),
+        }
+        car_rental_data = {
+            "ID": self.temp_rental_info["values"][0],
+            "start_date": self.rental_start_date.get(),
+            "end_date": self.rental_end_date.get(),
+        }
+        customer_data.update_customer_data(customer_rental_data)
+        car_data.update_car_data(car_rental_data)
         self.create_page_selection_screen()
+        self.tab_control.select(1)
 
     def create_customer_profile_screen(self):
         ttk.Label(self.customer_profile_tab, text="Customer Profile").grid(

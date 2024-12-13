@@ -34,6 +34,16 @@ class CarData:
     def load_car_data(self) -> list[dict]:
         return self.load_car_data_json()
 
+    def update_car_data(self, data) -> None:
+        current_data = self.load_car_data_json()
+        for info in current_data:
+            if info["ID"] == data["ID"]:
+                info["start_date"] = data["start_date"]
+                info["end_date"] = data["end_date"]
+                info["status"] = "rented"
+                break
+        with open(CAR_DATA_PATH, "w") as file:
+            json.dump({"data": current_data}, file)
 
 if __name__ == "__main__":
     car_data = CarData()
