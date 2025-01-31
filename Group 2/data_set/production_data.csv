@@ -1,0 +1,7 @@
+batch_id,machine_id,machine_type,product_type,start_date,end_date,units,result,remarks
+spk_001,mch_spk_001,speaker assembly machine,speaker,1/1/2024,8/1/2024,700,pass,
+hph_001,mch_hph_001,headphones assembly machine,headphones,13/1/2024,31/1/2024,180,pass,
+tv_001,mch_tv_001,tv assembly machine,tv,25/7/2024,31/10/2024,1200,pass,
+spk_002,mch_spk_001,speaker assembly machine,speaker,12/1/2024,19/1/2024,700,fail,50 units have missing tweeters
+hph_002,mch_hph_001,headphones assembly machine,headphones,13/2/2024,31/3/2024,200,pass,
+tv_002,mch_tv_001,tv assembly machine,tv,25/11/2024,31/3/2025,1200,,

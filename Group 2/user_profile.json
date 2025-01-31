@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Maryam",
+        "role": "operator",
+        "change_date": false,
+        "add_users": false
+    },
+    {
+        "name": "Alvin",
+        "role": "qc_inspector",
+        "change_date": true,
+        "add_users": false
+    },
+    {
+        "name": "Shi Hau",
+        "role": "admin",
+        "change_date": true,
+        "add_users": true
+    }
+]

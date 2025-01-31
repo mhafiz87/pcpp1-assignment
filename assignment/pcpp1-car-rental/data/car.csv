@@ -1,0 +1,12 @@
+ID,brand,model,engine_type,seat_capacity,status,start_date,end_date
+ABC123,proton,saga,gasoline,5,available,,
+XYZ789,proton,s70,gasoline,5,available,,
+HJK456,proton,x90,gasoline,5,available,,
+QWE321,proton,x70,gasoline,5,available,,
+POI987,proton,x50,gasoline,5,available,,
+MNB654,byd,m6,ev,7,available,,
+LKJ987,byd,seal,ev,5,available,,
+WER456,byd,dolphin,ev,5,available,,
+UIO321,toyota,camry,gasoline,5,available,,
+ZXC789,toyota,vios,gasoline,5,available,,
+VBN654,toyota,yaris,gasoline,5,available,,

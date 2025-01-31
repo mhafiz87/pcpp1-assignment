@@ -1,0 +1,114 @@
+{
+    "data": [
+        {
+            "ID": "ABC123",
+            "brand": "proton",
+            "model": "saga",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "XYZ789",
+            "brand": "proton",
+            "model": "s70",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "HJK456",
+            "brand": "proton",
+            "model": "x90",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "QWE321",
+            "brand": "proton",
+            "model": "x70",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "POI987",
+            "brand": "proton",
+            "model": "x50",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "MNB654",
+            "brand": "byd",
+            "model": "m6",
+            "engine_type": "ev",
+            "seat_capacity": 7,
+            "status": "rented",
+            "start_date": "14/12/2024",
+            "end_date": "25/12/2024"
+        },
+        {
+            "ID": "LKJ987",
+            "brand": "byd",
+            "model": "seal",
+            "engine_type": "ev",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "WER456",
+            "brand": "byd",
+            "model": "dolphin",
+            "engine_type": "ev",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "UIO321",
+            "brand": "toyota",
+            "model": "camry",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "ZXC789",
+            "brand": "toyota",
+            "model": "vios",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        },
+        {
+            "ID": "VBN654",
+            "brand": "toyota",
+            "model": "yaris",
+            "engine_type": "gasoline",
+            "seat_capacity": 5,
+            "status": "available",
+            "start_date": "",
+            "end_date": ""
+        }
+    ]
+}

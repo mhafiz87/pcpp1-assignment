@@ -1,0 +1,74 @@
+[
+    {
+        "Category": "Audio Devices",
+        "Product_Type": "Speakers",
+        "Stock_Level": 319,
+        "Reorder_Threshold": 246
+    },
+    {
+        "Category": "Audio Devices",
+        "Product_Type": "Microphones",
+        "Stock_Level": 677,
+        "Reorder_Threshold": 145
+    },
+    {
+        "Category": "Audio Devices",
+        "Product_Type": "Headphones",
+        "Stock_Level": 388,
+        "Reorder_Threshold": 127
+    },
+    {
+        "Category": "Audio Devices",
+        "Product_Type": "Amplifiers",
+        "Stock_Level": 353,
+        "Reorder_Threshold": 258
+    },
+    {
+        "Category": "Video Devices",
+        "Product_Type": "Cameras",
+        "Stock_Level": 667,
+        "Reorder_Threshold": 88
+    },
+    {
+        "Category": "Video Devices",
+        "Product_Type": "Projectors",
+        "Stock_Level": 120,
+        "Reorder_Threshold": 105
+    },
+    {
+        "Category": "Video Devices",
+        "Product_Type": "Monitors",
+        "Stock_Level": 116,
+        "Reorder_Threshold": 189
+    },
+    {
+        "Category": "Video Devices",
+        "Product_Type": "Streaming Devices",
+        "Stock_Level": 1000,
+        "Reorder_Threshold": 168
+    },
+    {
+        "Category": "Accessories",
+        "Product_Type": "Cables",
+        "Stock_Level": 571,
+        "Reorder_Threshold": 120
+    },
+    {
+        "Category": "Accessories",
+        "Product_Type": "Remote Controls",
+        "Stock_Level": 923,
+        "Reorder_Threshold": 147
+    },
+    {
+        "Category": "Accessories",
+        "Product_Type": "Mounts",
+        "Stock_Level": 364,
+        "Reorder_Threshold": 147
+    },
+    {
+        "Category": "Accessories",
+        "Product_Type": "Batteries",
+        "Stock_Level": 638,
+        "Reorder_Threshold": 137
+    }
+]

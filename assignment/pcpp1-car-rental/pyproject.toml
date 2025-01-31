@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pcpp1-car-rental"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Muhammad Hafiz bin Muhamad", email = "mhafiz.muhamad@gmail.com" },
+]
+classifiers = [
+  "Private :: Do not Upload",
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "tkcalendar",
+  "colored"
+]
+
+[tool.hatch.version]
+path = "src/pcpp1/__about__.py"
+
+[tool.hatch.envs.dev]
+dependencies =[
+  # "furo",
+  # "sphinx",
+  # "debugpy",
+  # "basedpyright",
+  # "ruff",
+  # "black",
+  # "isort",
+  # "pytest"
+]
+
+[tools.black]
+
+[tools.isort]
+profile = "black"
+
+[tools.basedpyright]
+
+readme = "README.md"
